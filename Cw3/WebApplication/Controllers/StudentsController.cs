@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication.DAL;
 using WebApplication.Models;
 
-namespace WebApplication.Controllers
+
+namespace System.Data
 {
     [ApiController]
     [Route("api/students")]
     public class StudentsController : ControllerBase
     {
-        
+
         //[HttpGet]
         //public string GetStudent()
         //{
@@ -31,11 +35,87 @@ namespace WebApplication.Controllers
         //     return NotFound("Nie znaleziono studenta");
         // }
         //==============================================================
+        //44444444444444444444444444444444444444444444444444444444444444
         // [HttpGet]
-        // public string GetStudents(string orderBy)
+        // public IActionResult GetStudents()
         // {
-        //     return $"Kowalski, Malewski, Andrzejewski sortowanie={orderBy}";
+        //     var stud = new List<Student>();
+        //     using (var con = new SqlConnection("Data Source=db-mssql;Initial Catalog=s19027;Integrated Security=True"))
+        //     using(var com=new SqlCommand())
+        //     {
+        //         com.Connection = con;
+        //         com.CommandText = "select * from Student ";
+        //         
+        //         con.Open();
+        //         var dr = com.ExecuteReader();
+        //         while (dr.Read())
+        //         {
+        //              var st = new Student();
+        //              st.IndexNumber = dr["IndexNumber"].ToString();
+        //              st.FirstName = dr["FirstName"].ToString();
+        //              st.LastName = dr["LastName"].ToString();
+        //              st.BirthDate = DateTime.Parse(dr["BirthDate"].ToString());
+        //              st.IdEnrollment = int.Parse(dr["IdEnrollment"].ToString());
+        //              stud.Add(st);
+        //         }
+        //     }
+        //
+        //     return Ok(stud);
+        //     
         // }
+        //===========================================================================
+       //4444444444444444444444444444444444444444444444444444444444444444444444444444
+        // [HttpGet("{id}")]
+        // public IActionResult GetStudents(string id)
+        // {
+        //     using (var con = new SqlConnection("Data Source=db-mssql;Initial Catalog=s19027;Integrated Security=True"))
+        //     using(var com=new SqlCommand())
+        //     {
+        //         com.Connection = con;
+        //         com.CommandText = "select * from Enrollment WHERE IdEnrollment=(SELECT IdEnrollment FROM Student where IndexNumber = \'"+id+"\')";
+        //         
+        //         con.Open();
+        //         var dr = com.ExecuteReader();
+        //         
+        //         var stud = new List<string>();
+        //         while (dr.Read())
+        //         {
+        //             stud.Add(dr["Semester"].ToString());
+        //         }
+        //         return Ok(stud);
+        //     }
+        // }
+        //=============================================================
+        //4444444444444444444444444444444444444444444444444444444444444
+        [HttpGet]
+        public IActionResult GetStudents()
+        {
+            var stud = new List<Student>();
+            using (var con = new SqlConnection("Data Source=db-mssql;Initial Catalog=s19027;Integrated Security=True"))
+            using(var com=new SqlCommand())
+            {
+                string id = "1";
+                
+                com.Connection = con;
+                com.CommandText = "select * from Student where IndexNumber=@id";
+                com.Parameters.AddWithValue("id", id);
+                con.Open();
+                var dr = com.ExecuteReader();
+                while (dr.Read())
+                {
+                    var st = new Student();
+                    st.IndexNumber = dr["IndexNumber"].ToString();
+                    st.FirstName = dr["FirstName"].ToString();
+                    st.LastName = dr["LastName"].ToString();
+                    st.BirthDate = DateTime.Parse(dr["BirthDate"].ToString());
+                    st.IdEnrollment = int.Parse(dr["IdEnrollment"].ToString());
+                    stud.Add(st);
+                }
+            }
+        
+            return Ok(stud);
+            
+        }
         //==============================================================
         // [HttpPost]
         // public IActionResult CreateStudent(Student student)
@@ -59,17 +139,13 @@ namespace WebApplication.Controllers
         //     return Ok("Aktualizacja dokonczona");
         // }
         //=================================================================
-        private readonly Idb _db;
+        // private readonly Idb _db;
+        //
+        // public StudentsController(Idb db)
+        // {
+        //     _db = db;
+        // }
 
-        public StudentsController(Idb db)
-        {
-            _db = db;
-        }
-
-        [HttpGet]
-        public IActionResult GetStudents(string orderBy)
-        {
-            return Ok(_db.GetStudents());
-        }
+        
     }
 }
