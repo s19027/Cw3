@@ -87,35 +87,35 @@ namespace System.Data
         // }
         //=============================================================
         //4444444444444444444444444444444444444444444444444444444444444
-        [HttpGet]
-        public IActionResult GetStudents()
-        {
-            var stud = new List<Student>();
-            using (var con = new SqlConnection("Data Source=db-mssql;Initial Catalog=s19027;Integrated Security=True"))
-            using(var com=new SqlCommand())
-            {
-                string id = "1";
-                
-                com.Connection = con;
-                com.CommandText = "select * from Student where IndexNumber=@id";
-                com.Parameters.AddWithValue("id", id);
-                con.Open();
-                var dr = com.ExecuteReader();
-                while (dr.Read())
-                {
-                    var st = new Student();
-                    st.IndexNumber = dr["IndexNumber"].ToString();
-                    st.FirstName = dr["FirstName"].ToString();
-                    st.LastName = dr["LastName"].ToString();
-                    st.BirthDate = DateTime.Parse(dr["BirthDate"].ToString());
-                    st.IdEnrollment = int.Parse(dr["IdEnrollment"].ToString());
-                    stud.Add(st);
-                }
-            }
-        
-            return Ok(stud);
-            
-        }
+        // [HttpGet]
+        // public IActionResult GetStudents()
+        // {
+        //     var stud = new List<Student>();
+        //     using (var con = new SqlConnection("Data Source=db-mssql;Initial Catalog=s19027;Integrated Security=True"))
+        //     using(var com=new SqlCommand())
+        //     {
+        //         string id = "1";
+        //         
+        //         com.Connection = con;
+        //         com.CommandText = "select * from Student where IndexNumber=@id";
+        //         com.Parameters.AddWithValue("id", id);
+        //         con.Open();
+        //         var dr = com.ExecuteReader();
+        //         while (dr.Read())
+        //         {
+        //             var st = new Student();
+        //             st.IndexNumber = dr["IndexNumber"].ToString();
+        //             st.FirstName = dr["FirstName"].ToString();
+        //             st.LastName = dr["LastName"].ToString();
+        //             st.BirthDate = DateTime.Parse(dr["BirthDate"].ToString());
+        //             st.IdEnrollment = int.Parse(dr["IdEnrollment"].ToString());
+        //             stud.Add(st);
+        //         }
+        //     }
+        //
+        //     return Ok(stud);
+        //     
+        // }
         //==============================================================
         // [HttpPost]
         // public IActionResult CreateStudent(Student student)
