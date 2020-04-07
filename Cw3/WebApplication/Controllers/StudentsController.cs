@@ -14,11 +14,11 @@ namespace System.Data
     public class StudentsController : ControllerBase
     {
 
-        //[HttpGet]
-        //public string GetStudent()
-        //{
-        //    return"Kowalski, Malejewski, Andrzejewski";
-        //}
+        [HttpGet]
+        public string GetStudent()
+        {
+            return"Kowalski, Malejewski, Andrzejewski";
+        }
         //============================================================
         // [HttpGet("{id}")]
         // public IActionResult GetStudent(int id)

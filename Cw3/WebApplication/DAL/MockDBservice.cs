@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using WebApplication.Models;
 
 namespace WebApplication.DAL
 {
-    public class MockDBservice : Idb
+    public abstract class MockDBservice : Idb
     {
         private static IEnumerable<Student> _students;
 
@@ -16,9 +18,12 @@ namespace WebApplication.DAL
                 new Student {IdStudent = 3, FirstName = "Andrzej", LastName = "Andrzejewski"},
             };
         }
+
         public IEnumerable<Student> GetStudents()
         {
             return _students;
         }
+        
+        
     }
 }
